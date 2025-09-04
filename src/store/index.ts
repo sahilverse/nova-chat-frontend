@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { useDispatch } from 'react-redux';
 
+const placeholderReducer = (state = {}, action: any) => state;
 
 export const store = configureStore({
     reducer: {
+        placeholder: placeholderReducer,
     },
 });
 
@@ -12,4 +13,3 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
