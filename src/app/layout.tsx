@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { Provider } from "react-redux";
-import { store } from "@/store";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Providers } from "./providers";
 import { Toaster } from "sonner";
 import "./globals.css";
-
 
 export const metadata: Metadata = {
   title: "Nova Chat App",
@@ -13,23 +10,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
-        <Provider store={store}>
-          <QueryClientProvider client={new QueryClient()}>
-            {children}
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-              }}
-            />
-          </QueryClientProvider>
-        </Provider>
+        <Providers>
+          {children}
+          <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+        </Providers>
       </body>
     </html>
   );
