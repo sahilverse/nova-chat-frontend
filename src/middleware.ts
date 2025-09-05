@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import { AUTH_ROUTES, PUBLIC_ROUTES } from "@/lib/routes";
 
 
 export function middleware(req: NextRequest) {
     const token = req.headers.get("authorization")?.split(" ")[1];
 
-    if (!token && !req.nextUrl.pathname.startsWith("/auth")) {
+    const isPublicRoute = PUBLIC_ROUTES.includes(req.nextUrl.pathname);
+    const isAuthRoute = AUTH_ROUTES.includes(req.nextUrl.pathname);
+
+    if (!token && !isPublicRoute && !isAuthRoute) {
         return NextResponse.redirect(new URL("/auth/login", req.url));
     }
 
@@ -13,5 +16,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/(protected)/:path*"],
+    matcher: ["/((?!_next|api|favicon.ico).*)"],
 };
