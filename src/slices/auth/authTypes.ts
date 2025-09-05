@@ -1,7 +1,7 @@
-export type AuthUser = {
+export interface AuthUser {
     id: string;
-    name?: string;
-    email?: string;
+    name: string;
+    email: string;
     profileImage?: string
 };
 
