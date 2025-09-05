@@ -1,89 +1,91 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_URL } from "@/lib/constants";
 import { store } from "@/store";
 
-
 if (!API_URL) throw new Error("API_URL is not defined");
 
-
+// -------------------- Axios Instance --------------------
 const api = axios.create({
     baseURL: API_URL,
     withCredentials: true,
     headers: { "x-client-type": "web" },
 });
 
-
-// Queue for refresh
+// -------------------- Refresh Queue --------------------
 let isRefreshing = false;
 let failedQueue: ((token: string) => void)[] = [];
-
 
 const processQueue = (token: string) => {
     failedQueue.forEach((cb) => cb(token));
     failedQueue = [];
 };
 
+// -------------------- Refresh Token Helper --------------------
+async function refreshToken(): Promise<string> {
+    const { data } = await api.post("/auth/token/refresh");
+    const newToken = data.Result.access_token;
+    store.dispatch({ type: "auth/setAccessToken", payload: newToken });
+    processQueue(newToken);
+    return newToken;
+}
 
-// Request interceptor: attach token
+// -------------------- Request Interceptor --------------------
 api.interceptors.request.use((config) => {
     const token = store.getState().auth.accessToken;
-    if (token) config.headers["Authorization"] = `Bearer ${token}`;
+    if (token && config.headers) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+    }
     return config;
 });
 
-
-// Response interceptor: handle errors
+// -------------------- Response Interceptor --------------------
 api.interceptors.response.use(
-    response => response,
-    error => {
-        if (error.response) {
-            const { StatusCode, ErrorMessage } = error.response.data;
-            return Promise.reject({
-                statusCode: StatusCode,
-                errorMessage: typeof ErrorMessage === "string" ? ErrorMessage : "Validation failed",
-                fieldErrors: typeof ErrorMessage === "object" ? ErrorMessage : null,
-            });
+    (response) => response,
+    async (error: AxiosError<any, any>) => {
+        const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+
+        // If no response, network error
+        if (!error.response) {
+            return Promise.reject({ statusCode: 500, message: "Network error" });
         }
-        return Promise.reject({ statusCode: 500, message: "Something went wrong" });
+
+        const { StatusCode, ErrorMessage } = error.response.data || {};
+        const status = StatusCode || error.response.status;
+
+        // -------------------- Refresh Token Logic --------------------
+        if (status === 401 && !originalRequest._retry && originalRequest.url !== "/auth/token/refresh") {
+            if (isRefreshing) {
+                return new Promise((resolve) => {
+                    failedQueue.push((token: string) => {
+                        if (originalRequest.headers) {
+                            originalRequest.headers["Authorization"] = `Bearer ${token}`;
+                        }
+                        resolve(api(originalRequest));
+                    });
+                });
+            }
+
+            originalRequest._retry = true;
+            isRefreshing = true;
+
+            try {
+                const newToken = await refreshToken();
+                if (originalRequest.headers) {
+                    originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+                }
+                return api(originalRequest);
+            } finally {
+                isRefreshing = false;
+            }
+        }
+
+        // -------------------- Standardized Error --------------------
+        return Promise.reject({
+            statusCode: status,
+            errorMessage: typeof ErrorMessage === "string" ? ErrorMessage : undefined,
+            fieldErrors: typeof ErrorMessage === "object" ? ErrorMessage : undefined,
+        });
     }
 );
 
-
-// Refresh token logic
-api.interceptors.response.use(undefined, async (error) => {
-    const originalRequest = error.config;
-
-
-    if (error.statusCode === 401 && !originalRequest._retry) {
-        if (isRefreshing) {
-            return new Promise((resolve) => {
-                failedQueue.push((token: string) => {
-                    originalRequest.headers["Authorization"] = `Bearer ${token}`;
-                    resolve(api(originalRequest));
-                });
-            });
-        }
-
-
-        originalRequest._retry = true;
-        isRefreshing = true;
-
-
-        try {
-            const { data } = await api.post("/auth/token/refresh");
-            store.dispatch({ type: "auth/setAccessToken", payload: data.access_token });
-            processQueue(data.access_token);
-            return api(originalRequest);
-        } finally {
-            isRefreshing = false;
-        }
-    }
-
-
-    return Promise.reject(error);
-});
-
-
 export default api;
-
-
