@@ -1,15 +1,6 @@
-import api from "@/api/axios";
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-
-type AuthUser = { id: string; name?: string; email?: string; profileImage?: string };
-
-interface AuthState {
-    accessToken: string | null;
-    user: AuthUser | null;
-    status: "idle" | "loading" | "succeeded" | "failed";
-    errorMessage: string | null;
-    fieldErrors: Record<string, string> | null;
-}
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AuthState, AuthUser } from "./authTypes";
+import { loginThunk, registerThunk, logoutThunk } from "./authThunks";
 
 const initialState: AuthState = {
     accessToken: null,
@@ -18,36 +9,6 @@ const initialState: AuthState = {
     errorMessage: null,
     fieldErrors: null,
 };
-
-
-// Login
-export const loginThunk = createAsyncThunk(
-    "auth/login",
-    async (payload: { email: string; password: string }, thunkAPI) => {
-        try {
-            const response = await api.post("/auth/login", payload);
-            const Result = response.data.Result;
-            return Result;
-        } catch (err: any) {
-            return thunkAPI.rejectWithValue(err);
-        }
-    }
-);
-
-// Register
-export const registerThunk = createAsyncThunk(
-    "auth/register",
-    async (payload: { name: string; email: string; password: string }, thunkAPI) => {
-        try {
-            const response = await api.post("/auth/register", payload);
-            return response.data.Result;
-        } catch (err: any) {
-            return thunkAPI.rejectWithValue(err);
-        }
-    }
-);
-
-// Slice
 
 const authSlice = createSlice({
     name: "auth",
@@ -79,14 +40,13 @@ const authSlice = createSlice({
                 state.status = "succeeded";
                 state.accessToken = action.payload.access_token;
                 state.user = action.payload.user;
-                state.errorMessage = null;
-                state.fieldErrors = null;
             })
             .addCase(loginThunk.rejected, (state, action: any) => {
                 state.status = "failed";
                 state.errorMessage = action.payload?.errorMessage || "Login failed";
                 state.fieldErrors = action.payload?.fieldErrors || null;
             })
+
             // Register
             .addCase(registerThunk.pending, (state) => {
                 state.status = "loading";
@@ -100,7 +60,18 @@ const authSlice = createSlice({
                 state.status = "failed";
                 state.errorMessage = action.payload?.errorMessage || "Register failed";
                 state.fieldErrors = action.payload?.fieldErrors || null;
+            })
 
+            // Logout
+            .addCase(logoutThunk.fulfilled, (state) => {
+                state.accessToken = null;
+                state.user = null;
+                state.status = "idle";
+                state.errorMessage = null;
+                state.fieldErrors = null;
+            })
+            .addCase(logoutThunk.rejected, (state, action: any) => {
+                state.errorMessage = action.payload?.errorMessage || "Logout failed";
             });
     },
 });

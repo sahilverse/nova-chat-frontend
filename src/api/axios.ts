@@ -3,6 +3,8 @@ import { API_URL } from "@/lib/constants";
 import { store } from "@/store";
 
 
+if (!API_URL) throw new Error("API_URL is not defined");
+
 
 const api = axios.create({
     baseURL: API_URL,
