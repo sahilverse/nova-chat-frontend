@@ -10,20 +10,6 @@ export default function ThemeWatcher() {
     const dispatch = useDispatch();
     const { theme } = useSelector((state: RootState) => state.theme);
 
-
-    // On mount, load theme from localStorage
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const savedTheme = localStorage.getItem("nova-theme") as
-                | "light"
-                | "dark"
-                | "system"
-                | null;
-            dispatch(setTheme(savedTheme ?? "system"));
-        }
-    }, [dispatch]);
-
-
     // Update actualTheme and HTML class when theme changes
     useEffect(() => {
         if (!theme) return;
