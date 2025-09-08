@@ -1,4 +1,7 @@
+"use client"
+
 import { Users, MessageCircle, Zap } from "lucide-react"
+import { motion } from "framer-motion"
 
 export function HowItWorksSection() {
   const steps = [
@@ -19,6 +22,21 @@ export function HowItWorksSection() {
     },
   ]
 
+  // Variants for the motion animation
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  }
+
+  const stepVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, opacity: { ease: "easeOut" } } },
+  }
+
   return (
     <section className="py-20 bg-muted/30 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
@@ -33,11 +51,22 @@ export function HowItWorksSection() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <motion.div
+            className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
             {steps.map((step, index) => (
-              <div key={index} className="text-center space-y-4 group">
+              <motion.div
+                key={index}
+                className="text-center space-y-4 group"
+                variants={stepVariants}
+                whileHover={{ scale: 1.05 }}
+              >
                 <div className="relative">
-                  <div className="w-20 h-20 mx-auto nova-gradient rounded-3xl flex items-center justify-center nova-shadow group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 mx-auto nova-gradient rounded-3xl flex items-center justify-center nova-shadow">
                     <step.icon className="w-10 h-10 text-white" />
                   </div>
                   {index < 2 && (
@@ -46,9 +75,9 @@ export function HowItWorksSection() {
                 </div>
                 <h3 className="text-xl font-semibold">{step.title}</h3>
                 <p className="text-muted-foreground text-pretty">{step.desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
