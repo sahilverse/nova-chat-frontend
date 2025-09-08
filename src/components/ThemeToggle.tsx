@@ -12,7 +12,7 @@ interface ThemeToggleProps {
     showLabel?: boolean;
 }
 
-export function ThemeToggle({
+export default function ThemeToggle({
     variant = "button",
     size = "md",
     showLabel = false,
@@ -64,7 +64,7 @@ export function ThemeToggle({
                 variant="ghost"
                 size={size === "sm" ? "sm" : "default"}
                 onClick={toggleTheme}
-                className={`${size === "sm" ? "p-2" : "p-3"} hover:bg-accent transition-colors`}
+                className={`${size === "sm" ? "p-2" : "p-3"} hover:bg-accent transition-colors cursor-pointer`}
                 title={`Switch to ${theme === "light"
                     ? "dark"
                     : theme === "dark"
