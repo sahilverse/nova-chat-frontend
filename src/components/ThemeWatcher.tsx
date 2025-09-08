@@ -3,12 +3,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { setActualTheme } from "@/slices/themeSlice";
+import { setTheme, setActualTheme } from "@/slices/themeSlice";
 
 export default function ThemeWatcher() {
 
     const dispatch = useDispatch();
     const { theme } = useSelector((state: RootState) => state.theme);
+
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const savedTheme = localStorage.getItem("nova-theme")
+
+            const validTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : "system"
+
+
+            if (theme !== validTheme) {
+                dispatch(setTheme(validTheme))
+            }
+        }
+    }, [dispatch, theme])
+
 
     // Update actualTheme and HTML class when theme changes
     useEffect(() => {
