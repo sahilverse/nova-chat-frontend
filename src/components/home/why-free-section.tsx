@@ -30,7 +30,7 @@ export function WhyFreeSection() {
 
         <Card className="max-w-3xl mx-auto border-2 border-primary/20 nova-shadow-colored relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
-          <CardContent className="relative p-8 lg:p-12 text-center space-y-8">
+          <CardContent className="relative p-6 lg:p-10 text-center space-y-8 ">
             <div className="space-y-4">
               <div className="inline-flex items-center justify-center w-20 h-20 nova-gradient rounded-3xl nova-shadow">
                 <Heart className="w-10 h-10 text-white" />
@@ -42,19 +42,20 @@ export function WhyFreeSection() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-x-36 gap-y-3 max-w-md mx-auto whitespace-nowrap p-4">
               {features.map((feature) => (
-                <div key={feature} className="flex items-center space-x-3">
+                <div key={feature} className="flex items-center space-x-2 ">
                   <Check className="w-5 h-5 text-success flex-shrink-0" />
                   <span className="text-muted-foreground">{feature}</span>
                 </div>
               ))}
             </div>
 
+
             <Button
               asChild
               size="lg"
-              className="nova-gradient text-white hover:opacity-90 h-14 px-8 rounded-2xl nova-shadow-colored font-semibold text-lg w-full sm:w-auto"
+              className="nova-gradient text-white hover:opacity-90 h-14 px-8 rounded-2xl nova-shadow-colored font-semibold text-lg w-full sm:w-auto "
             >
               <Link href="/auth/register">
                 Get Started Free
