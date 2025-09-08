@@ -1,19 +1,19 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { useInView } from "framer-motion"
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "framer-motion";
 
 interface AnimatedCounterProps {
   end: number
   suffix?: string
   duration?: number
-}
+};
 
 function AnimatedCounter({ end, suffix = "", duration = 2 }: AnimatedCounterProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
-  const [count, setCount] = useState(0)
-  const start = 0
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [count, setCount] = useState(0);
+  const start = 0;
 
   useEffect(() => {
     if (isInView) {
@@ -27,10 +27,10 @@ function AnimatedCounter({ end, suffix = "", duration = 2 }: AnimatedCounterProp
         } else {
           setCount(end)
         }
-      }
-      requestAnimationFrame(step)
+      };
+      requestAnimationFrame(step);
     }
-  }, [isInView, end, duration])
+  }, [isInView, end, duration]);
 
   return (
     <div ref={ref} className="flex items-center justify-center text-4xl lg:text-5xl font-bold nova-gradient-text">
@@ -39,7 +39,7 @@ function AnimatedCounter({ end, suffix = "", duration = 2 }: AnimatedCounterProp
       </span>
       <span className="ml-1">{suffix}</span>
     </div>
-  )
+  );
 }
 
 export function StatsSection() {
@@ -47,7 +47,7 @@ export function StatsSection() {
     { number: 99, suffix: "%", label: "Uptime" },
     { number: 50, suffix: "ms", label: "Message Speed" },
     { number: 24, suffix: "/7", label: "Available" },
-  ]
+  ];
 
   return (
     <section className="py-20">
@@ -62,5 +62,5 @@ export function StatsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

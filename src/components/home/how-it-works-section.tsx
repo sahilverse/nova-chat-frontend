@@ -1,7 +1,7 @@
 "use client"
 
-import { Users, MessageCircle, Zap } from "lucide-react"
-import { motion } from "framer-motion"
+import { Users, MessageCircle, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function HowItWorksSection() {
   const steps = [
@@ -20,7 +20,7 @@ export function HowItWorksSection() {
       title: "3. Start Chatting",
       desc: "Enjoy fast, reliable messaging with a beautiful interface.",
     },
-  ]
+  ];
 
   // Variants for the motion animation
   const containerVariants = {
@@ -30,12 +30,12 @@ export function HowItWorksSection() {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   const stepVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, opacity: { ease: "easeOut" } } },
-  }
+  };
 
   return (
     <section className="py-20 bg-muted/30 relative overflow-hidden">
@@ -81,5 +81,5 @@ export function HowItWorksSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

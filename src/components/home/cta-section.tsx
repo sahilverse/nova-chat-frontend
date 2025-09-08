@@ -1,9 +1,9 @@
 "use client"
 
-import { Button } from "../ui/button"
-import { AnimatedGridBackground } from "./animated-background"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { Button } from "../ui/button";
+import { AnimatedGridBackground } from "./animated-background";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function CtaSection() {
   return (
@@ -38,5 +38,5 @@ export function CtaSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

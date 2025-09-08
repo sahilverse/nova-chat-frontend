@@ -1,4 +1,4 @@
-import { MessageCircle } from "lucide-react"
+import { MessageCircle } from "lucide-react";
 
 export function Footer() {
   return (
@@ -31,5 +31,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

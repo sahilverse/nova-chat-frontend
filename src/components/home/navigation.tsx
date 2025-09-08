@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { MessageCircle } from "lucide-react"
-import ThemeToggle from "@/components/ThemeToggle"
+import { Button } from "@/components/ui/button";
+import { MessageCircle } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
 
 export function Navigation() {

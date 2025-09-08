@@ -1,11 +1,11 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Button } from "../ui/button"
-import { Badge } from "../ui/badge"
-import { AnimatedGridBackground, FloatingIcons, GlowingOrb } from "./animated-background"
-import { Sparkles, ArrowRight, Play, Check } from "lucide-react"
-import Link from "next/link"
+import { motion } from "framer-motion";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { AnimatedGridBackground, FloatingIcons, GlowingOrb } from "./animated-background";
+import { Sparkles, ArrowRight, Check } from "lucide-react";
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,7 +16,7 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-}
+};
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -28,7 +28,7 @@ const itemVariants = {
       opacity: { ease: "linear" }
     },
   },
-}
+};
 
 export function HeroSection() {
   return (
@@ -109,5 +109,5 @@ export function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

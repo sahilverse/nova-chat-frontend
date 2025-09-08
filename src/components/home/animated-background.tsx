@@ -1,7 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { MessageCircle, Heart, Star, Zap, Sparkles } from "lucide-react"
+import { motion } from "framer-motion";
+import { MessageCircle, Heart, Star, Zap, Sparkles } from "lucide-react";
 
 export function AnimatedGridBackground() {
   return (
@@ -12,12 +12,12 @@ export function AnimatedGridBackground() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
     </div>
   )
-}
+};
 
 const floatAnimation = {
   initial: { y: 0 },
   animate: { y: [0, -20, 0] },
-}
+};
 
 export function FloatingIcons() {
   const icons = [
@@ -26,7 +26,7 @@ export function FloatingIcons() {
     { Icon: Star, delay: 1 },
     { Icon: Zap, delay: 1.5 },
     { Icon: Sparkles, delay: 2 },
-  ]
+  ];
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -52,7 +52,7 @@ export function FloatingIcons() {
         </motion.div>
       ))}
     </div>
-  )
+  );
 }
 
 export function GlowingOrb({ className }: { className?: string }) {
@@ -70,5 +70,5 @@ export function GlowingOrb({ className }: { className?: string }) {
     >
       <div className="w-full h-full nova-gradient" />
     </motion.div>
-  )
+  );
 }

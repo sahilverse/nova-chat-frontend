@@ -15,7 +15,7 @@ const containerVariants = {
       delayChildren: 0.2,
     },
   },
-}
+};
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -27,7 +27,7 @@ const cardVariants = {
       opacity: { ease: "linear" }
     },
   },
-}
+};
 
 function FeatureCard({
   icon: Icon,
@@ -54,7 +54,7 @@ function FeatureCard({
       </CardContent>
       <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-accent/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </Card>
-  )
+  );
 }
 
 export function FeaturesSection() {
@@ -90,7 +90,7 @@ export function FeaturesSection() {
       title: "Cross Platform",
       description: "Available on all devices with seamless synchronization.",
     },
-  ]
+  ];
 
   return (
     <section id="features" className="py-20 lg:py-32">
@@ -125,5 +125,5 @@ export function FeaturesSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
