@@ -1,3 +1,8 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { MessageCircle, Heart, Star, Zap, Sparkles } from "lucide-react"
+
 export function AnimatedGridBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -9,29 +14,42 @@ export function AnimatedGridBackground() {
   )
 }
 
+const floatAnimation = {
+  initial: { y: 0 },
+  animate: { y: [0, -20, 0] },
+}
+
 export function FloatingIcons() {
   const icons = [
     { Icon: MessageCircle, delay: 0 },
-    { Icon: Heart, delay: 1 },
-    { Icon: Star, delay: 2 },
-    { Icon: Zap, delay: 3 },
-    { Icon: Sparkles, delay: 4 },
+    { Icon: Heart, delay: 0.5 },
+    { Icon: Star, delay: 1 },
+    { Icon: Zap, delay: 1.5 },
+    { Icon: Sparkles, delay: 2 },
   ]
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {icons.map(({ Icon, delay }, index) => (
-        <div
+        <motion.div
           key={index}
-          className="absolute opacity-20 animate-float"
+          className="absolute opacity-20"
           style={{
             left: `${20 + index * 15}%`,
             top: `${10 + index * 12}%`,
-            animationDelay: `${delay}s`,
+          }}
+          initial="initial"
+          animate="animate"
+          variants={floatAnimation}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            repeatType: "loop",
+            delay,
           }}
         >
           <Icon className="w-8 h-8 text-primary" />
-        </div>
+        </motion.div>
       ))}
     </div>
   )
@@ -39,10 +57,18 @@ export function FloatingIcons() {
 
 export function GlowingOrb({ className }: { className?: string }) {
   return (
-    <div className={`absolute rounded-full blur-3xl opacity-20 ${className}`}>
+    <motion.div
+      className={`absolute rounded-full blur-3xl opacity-20 ${className}`}
+      initial={{ scale: 0.8, opacity: 0.1 }}
+      animate={{ scale: 1.2, opacity: 0.3 }}
+      transition={{
+        duration: 3,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut",
+      }}
+    >
       <div className="w-full h-full nova-gradient" />
-    </div>
+    </motion.div>
   )
 }
-
-import { MessageCircle, Heart, Star, Zap, Sparkles } from "lucide-react"
