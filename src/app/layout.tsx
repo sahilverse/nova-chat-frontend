@@ -17,24 +17,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const savedTheme = localStorage.getItem('nova-theme');
-                  const theme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'system';
-                  const actualTheme = theme === 'system'
-                    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-                    : theme;
-                  document.documentElement.classList.add(actualTheme);
-                } catch (_) {}
-              })();
-            `,
-          }}
-        />
-      </head>
       <body>
         <Providers>
           <ThemeWatcher />
