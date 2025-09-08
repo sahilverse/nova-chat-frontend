@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
     const isAuthRoute = AUTH_ROUTES.includes(req.nextUrl.pathname);
 
     if (!token && !isPublicRoute && !isAuthRoute) {
-        return NextResponse.redirect(new URL("/auth/login", req.url));
+        return NextResponse.redirect(new URL("/login", req.url));
     }
 
     return NextResponse.next();

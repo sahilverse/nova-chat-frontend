@@ -22,7 +22,7 @@ export function CtaSection() {
             size="lg"
             className="nova-gradient text-white hover:opacity-90 h-16 px-8 rounded-2xl nova-shadow-colored font-semibold text-xl group"
           >
-            <Link href="/auth/register">
+            <Link href="/register">
               Start Chatting Now
               <ArrowRight className="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -33,7 +33,7 @@ export function CtaSection() {
             size="lg"
             className="h-16 px-8 rounded-2xl border-2 font-semibold text-xl hover:bg-primary/5 bg-transparent"
           >
-            <Link href="/auth/login">Sign In</Link>
+            <Link href="/login">Sign In</Link>
           </Button>
         </div>
       </div>

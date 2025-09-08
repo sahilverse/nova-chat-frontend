@@ -57,7 +57,7 @@ export function WhyFreeSection() {
               size="lg"
               className="nova-gradient text-white hover:opacity-90 h-14 px-8 rounded-2xl nova-shadow-colored font-semibold text-lg w-full sm:w-auto "
             >
-              <Link href="/auth/register">
+              <Link href="/register">
                 Get Started Free
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>

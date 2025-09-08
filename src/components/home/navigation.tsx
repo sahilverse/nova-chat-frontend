@@ -26,10 +26,10 @@ export function Navigation() {
             </a>
             <ThemeToggle variant="button" size="sm" />
             <Button asChild variant="outline" size="sm">
-              <Link href="/auth/login">Sign In</Link>
+              <Link href="/login">Sign In</Link>
             </Button>
             <Button asChild size="sm" className="nova-gradient text-white hover:opacity-90">
-              <Link href="/auth/register">Get Started</Link>
+              <Link href="/register">Get Started</Link>
             </Button>
           </div>
 
