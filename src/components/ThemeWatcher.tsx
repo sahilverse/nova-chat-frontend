@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { setTheme, setActualTheme } from "@/slices/themeSlice";
+import { setActualTheme } from "@/slices/themeSlice";
 
 export default function ThemeWatcher() {
 
