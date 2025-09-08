@@ -27,7 +27,7 @@ export function Footer() {
             </a>
           </div>
 
-          <p className="text-sm text-muted-foreground">© 2024 Nova. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2025 Nova. All rights reserved.</p>
         </div>
       </div>
     </footer>
