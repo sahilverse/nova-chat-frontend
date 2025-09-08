@@ -8,8 +8,12 @@ interface ThemeState {
 }
 
 const initialState: ThemeState = {
-    theme: "system",
-    actualTheme: "light",
+    theme: localStorage.getItem("nova-theme") as Theme || "system",
+    actualTheme: localStorage.getItem("nova-theme") === "dark" ||
+        (localStorage.getItem("nova-theme") === "system" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ? "dark"
+        : "light",
 };
 
 const themeSlice = createSlice({
