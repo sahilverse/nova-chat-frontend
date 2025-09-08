@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from "../ui/button"
-import { Card, CardContent } from "../ui/card"
-import { Heart, ArrowRight, Check } from "lucide-react"
+import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
+import { Heart, ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 
 
@@ -14,7 +14,7 @@ export function WhyFreeSection() {
     "Group chats",
     "Cross-platform sync",
     "Dark mode support",
-  ]
+  ];
 
   return (
     <section id="pricing" className="py-20 lg:py-32">
