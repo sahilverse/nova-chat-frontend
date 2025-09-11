@@ -4,12 +4,14 @@ import { store } from "@/store";
 
 if (!API_URL) throw new Error("API_URL is not defined");
 
+// -------------------- Axios Instance --------------------
 const api = axios.create({
     baseURL: API_URL,
     withCredentials: true,
     headers: { "x-client-type": "web" },
 });
 
+// -------------------- Refresh Queue --------------------
 let isRefreshing = false;
 let failedQueue: ((token: string) => void)[] = [];
 
@@ -18,6 +20,7 @@ const processQueue = (token: string) => {
     failedQueue = [];
 };
 
+// -------------------- Refresh Token Helper --------------------
 async function refreshToken(): Promise<string> {
     const { data } = await api.post("/auth/token/refresh");
     const newToken = data.Result.access_token;
@@ -26,6 +29,7 @@ async function refreshToken(): Promise<string> {
     return newToken;
 }
 
+// -------------------- Request Interceptor --------------------
 api.interceptors.request.use((config) => {
     const token = store.getState().auth.accessToken;
     if (token && config.headers) {
@@ -34,6 +38,7 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+// -------------------- Response Interceptor --------------------
 api.interceptors.response.use(
     (response) => response,
     async (error: AxiosError<any, any>) => {
@@ -46,6 +51,8 @@ api.interceptors.response.use(
         const { StatusCode, ErrorMessage } = error.response.data || {};
         const status = StatusCode || error.response.status;
 
+
+        // -------------------- Refresh Token Logic --------------------
         // Only refresh token for authenticated requests
         const skipRefresh = ["/auth/token/refresh", "/auth/login", "/auth/register"];
         const shouldRefresh =
@@ -77,6 +84,7 @@ api.interceptors.response.use(
             }
         }
 
+        // -------------------- Standardized Error --------------------
         return Promise.reject({
             statusCode: status,
             errorMessage: typeof ErrorMessage === "string" ? ErrorMessage : null,
