@@ -17,7 +17,7 @@ export const loginThunk = createAsyncThunk(
 // Register
 export const registerThunk = createAsyncThunk(
     "auth/register",
-    async (payload: { name: string; email: string; password: string }, thunkAPI) => {
+    async (payload: { name: string; email: string; password: string; confirmPassword: string }, thunkAPI) => {
         try {
             const response = await api.post("/auth/register", payload);
             return response.data.Result;
