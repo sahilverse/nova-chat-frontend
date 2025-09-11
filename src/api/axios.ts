@@ -4,14 +4,12 @@ import { store } from "@/store";
 
 if (!API_URL) throw new Error("API_URL is not defined");
 
-// -------------------- Axios Instance --------------------
 const api = axios.create({
     baseURL: API_URL,
     withCredentials: true,
     headers: { "x-client-type": "web" },
 });
 
-// -------------------- Refresh Queue --------------------
 let isRefreshing = false;
 let failedQueue: ((token: string) => void)[] = [];
 
@@ -20,7 +18,6 @@ const processQueue = (token: string) => {
     failedQueue = [];
 };
 
-// -------------------- Refresh Token Helper --------------------
 async function refreshToken(): Promise<string> {
     const { data } = await api.post("/auth/token/refresh");
     const newToken = data.Result.access_token;
@@ -29,7 +26,6 @@ async function refreshToken(): Promise<string> {
     return newToken;
 }
 
-// -------------------- Request Interceptor --------------------
 api.interceptors.request.use((config) => {
     const token = store.getState().auth.accessToken;
     if (token && config.headers) {
@@ -38,22 +34,24 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// -------------------- Response Interceptor --------------------
 api.interceptors.response.use(
     (response) => response,
     async (error: AxiosError<any, any>) => {
         const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-        // If no response, network error
         if (!error.response) {
-            return Promise.reject({ statusCode: 500, message: "Network error" });
+            return Promise.reject({ statusCode: 500, errorMessage: "Network error" });
         }
 
         const { StatusCode, ErrorMessage } = error.response.data || {};
         const status = StatusCode || error.response.status;
 
-        // -------------------- Refresh Token Logic --------------------
-        if (status === 401 && !originalRequest._retry && originalRequest.url !== "/auth/token/refresh") {
+        // Only refresh token for authenticated requests
+        const skipRefresh = ["/auth/token/refresh", "/auth/login", "/auth/register"];
+        const shouldRefresh =
+            status === 401 && !originalRequest._retry && !skipRefresh.some((path) => originalRequest.url?.includes(path));
+
+        if (shouldRefresh) {
             if (isRefreshing) {
                 return new Promise((resolve) => {
                     failedQueue.push((token: string) => {
@@ -79,11 +77,10 @@ api.interceptors.response.use(
             }
         }
 
-        // -------------------- Standardized Error --------------------
         return Promise.reject({
             statusCode: status,
-            errorMessage: typeof ErrorMessage === "string" ? ErrorMessage : undefined,
-            fieldErrors: typeof ErrorMessage === "object" ? ErrorMessage : undefined,
+            errorMessage: typeof ErrorMessage === "string" ? ErrorMessage : null,
+            fieldErrors: typeof ErrorMessage === "object" ? ErrorMessage : null,
         });
     }
 );
