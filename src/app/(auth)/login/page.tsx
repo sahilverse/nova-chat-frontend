@@ -16,9 +16,7 @@ import { ClipLoader } from "react-spinners";
 
 import { loginThunk } from "@/slices/auth";
 import { useAppDispatch } from "@/store/hooks";
-
-
-type LoginFormInputs = z.infer<typeof loginSchema>;
+import type { LoginFormInputs } from "@/lib/zod";
 
 const LoginForm = () => {
     const dispatch = useAppDispatch();
