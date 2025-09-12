@@ -65,7 +65,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             </div>
 
             {/* Right side - Brand Section */}
-            <div className="lg:flex flex-1 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center">
+            <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 lg:flex items-center justify-center hidden ">
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 nova-gradient opacity-90" />
 
