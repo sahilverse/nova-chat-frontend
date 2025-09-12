@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Provider } from "react-redux";
-import { store } from "@/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { clearAuth, setAccessToken, setUser } from "@/slices/auth";
 import api from "@/api/axios";
 
+import { Provider } from "react-redux";
+import { store } from "@/store";
+import { clearAuth, setAccessToken, setUser } from "@/slices/auth";
 
 
 export function Providers({ children }: { children: React.ReactNode }) {
