@@ -10,7 +10,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Eye, EyeOff, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
-import * as z from "zod";
 import { loginSchema } from "@/lib/zod";
 import { ClipLoader } from "react-spinners";
 
