@@ -53,10 +53,7 @@ api.interceptors.response.use(
 
 
         // -------------------- Refresh Token Logic --------------------
-        // Only refresh token for authenticated requests
-        const skipRefresh = ["/auth/token/refresh", "/auth/login", "/auth/register"];
-        const shouldRefresh =
-            status === 401 && !originalRequest._retry && !skipRefresh.some((path) => originalRequest.url?.includes(path));
+        const shouldRefresh = status === 401 && !originalRequest._retry;
 
         if (shouldRefresh) {
             if (isRefreshing) {
