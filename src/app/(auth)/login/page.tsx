@@ -12,11 +12,10 @@ import { toast } from "sonner";
 import { useState } from "react";
 import * as z from "zod";
 import { loginSchema } from "@/lib/zod";
+import { ClipLoader } from "react-spinners";
 
 import { loginThunk } from "@/slices/auth";
 import { useAppDispatch } from "@/store/hooks";
-
-
 
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
@@ -40,7 +39,7 @@ const LoginForm = () => {
         try {
             await dispatch(
                 loginThunk({ email: data.email, password: data.password })
-            ).unwrap().catch((e) => { throw e });
+            ).unwrap();
 
             // TODO: Redirect to chat Page
             toast.success("Logged in successfully!");
@@ -139,7 +138,11 @@ const LoginForm = () => {
                             disabled={isLoading}
                             className="w-full h-12 nova-gradient text-white font-semibold text-base shadow-lg hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 hover:scale-[1.02]"
                         >
-                            {isLoading ? "Signing in..." : "Sign In"}
+                            {isLoading ? (
+                                <>
+                                    <ClipLoader size={24} color="#ffffff" /> Signing in...
+                                </>
+                            ) : "Sign In"}
                         </Button>
                     </form>
                 </CardContent>
