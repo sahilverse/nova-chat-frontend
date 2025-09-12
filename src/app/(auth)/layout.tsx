@@ -4,12 +4,14 @@ import { ReactNode } from "react";
 import { MessageCircle, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/store/hooks";
 
 interface AuthLayoutProps {
     children: ReactNode;
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
+    const isAuthenticated = !!useAppSelector((state) => state.auth.user);
     const router = useRouter();
 
     const blobVariants = {
@@ -24,6 +26,12 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         "HD audio & video calls",
         "Cross-platform support",
     ];
+
+    if (isAuthenticated) {
+        //TODO: Redirect to chat Page
+
+        return <div>You are already logged in.</div>;
+    }
 
     return (
         <div className="min-h-screen flex bg-background">

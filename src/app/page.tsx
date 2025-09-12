@@ -7,7 +7,9 @@ import { WhyFreeSection } from "@/components/home/why-free-section"
 import { CtaSection } from "@/components/home/cta-section"
 import { Footer } from "@/components/home/footer"
 
+
 export default function HomePage() {
+
   return (
     <div className="min-h-screen bg-background relative">
       <Navigation />
