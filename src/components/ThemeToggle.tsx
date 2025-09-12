@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "@/store"
-import { setTheme, type Theme } from "@/slices/themeSlice"
-import { Button } from "@/components/ui/button"
-import { Sun, Moon, Monitor } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/store";
+import { setTheme, type Theme } from "@/slices/themeSlice";
+import { Button } from "@/components/ui/button";
+import { Sun, Moon, Monitor } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface ThemeToggleProps {
     variant?: "button" | "switch"
@@ -14,51 +14,51 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ variant = "button", size = "md", showLabel = false }: ThemeToggleProps) {
-    const dispatch = useDispatch()
-    const { theme } = useSelector((state: RootState) => state.theme)
-    const [hydrated, setHydrated] = useState(false)
+    const dispatch = useDispatch();
+    const { theme } = useSelector((state: RootState) => state.theme);
+    const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
-        setHydrated(true)
-    }, [])
+        setHydrated(true);
+    }, []);
 
     const toggleTheme = () => {
-        let nextTheme: Theme
+        let nextTheme: Theme;
         if (theme === "light") {
-            nextTheme = "dark"
+            nextTheme = "dark";
         } else if (theme === "dark") {
-            nextTheme = "system"
+            nextTheme = "system";
         } else {
-            nextTheme = "light"
+            nextTheme = "light";
         }
-        dispatch(setTheme(nextTheme))
+        dispatch(setTheme(nextTheme));
     }
 
     const getIcon = () => {
         switch (theme) {
             case "light":
-                return <Sun className="w-5 h-5" />
+                return <Sun className="w-5 h-5" />;
             case "dark":
-                return <Moon className="w-5 h-5" />
+                return <Moon className="w-5 h-5" />;
             case "system":
-                return <Monitor className="w-5 h-5" />
+                return <Monitor className="w-5 h-5" />;
             default:
-                return <Sun className="w-5 h-5" />
-        }
-    }
+                return <Sun className="w-5 h-5" />;
+        };
+    };
 
     const getLabel = () => {
         switch (theme) {
             case "light":
-                return "Light"
+                return "Light";
             case "dark":
-                return "Dark"
+                return "Dark";
             case "system":
-                return "System"
+                return "System";
             default:
-                return "Light"
-        }
-    }
+                return "Light";
+        };
+    };
 
     if (!hydrated) {
         if (variant === "button") {
@@ -72,9 +72,9 @@ export default function ThemeToggle({ variant = "button", size = "md", showLabel
                     <div className="w-5 h-5 bg-transparent rounded animate-pulse" />
                     {showLabel && <div className="ml-2 w-12 h-4 bg-transparent rounded animate-pulse" />}
                 </Button>
-            )
-        }
-    }
+            );
+        };
+    };
 
     if (variant === "button") {
         return (
@@ -88,8 +88,8 @@ export default function ThemeToggle({ variant = "button", size = "md", showLabel
                 {getIcon()}
                 {showLabel && <span className="ml-2">{getLabel()}</span>}
             </Button>
-        )
-    }
+        );
+    };
 
     // "switch" variant (settings-style)
     return (
@@ -105,5 +105,5 @@ export default function ThemeToggle({ variant = "button", size = "md", showLabel
                 {getLabel()}
             </Button>
         </div>
-    )
+    );
 }
