@@ -59,7 +59,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                     />
                 </div>
 
-                <div className="w-full max-w-md space-y-8 relative z-10">
+                <div className="w-full max-w-md space-y-8 relative z-10 py-10 xl:py-0">
                     {children}
                 </div>
             </div>
