@@ -2,14 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { AUTH_ROUTES, PUBLIC_ROUTES } from "@/lib/routes";
 
 
-export function middleware(req: NextRequest) {
-    const token = req.headers.get("authorization")?.split(" ")[1];
 
+export function middleware(req: NextRequest) {
+    const token = req.cookies.get("refresh_token")?.value || null;
+
+    const isHomePage = req.nextUrl.pathname === "/";
     const isPublicRoute = PUBLIC_ROUTES.includes(req.nextUrl.pathname);
     const isAuthRoute = AUTH_ROUTES.includes(req.nextUrl.pathname);
 
-    if (!token && !isPublicRoute && !isAuthRoute) {
+    if (!token && !isPublicRoute && !isAuthRoute && !isHomePage) {
         return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+    if (token && (isAuthRoute || isHomePage)) {
+        return NextResponse.redirect(new URL("/chat", req.url));
     }
 
     return NextResponse.next();
