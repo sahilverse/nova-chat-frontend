@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_URL } from "@/lib/constants";
-import { getAccessToken, setAccessToken } from "@/lib/auth";
+import { getAccessToken } from "@/lib/auth";
 import { refreshToken as fetchNewToken } from "./refreshToken";
 
 
@@ -25,7 +25,6 @@ const processQueue = (token: string) => {
 // -------------------- Refresh Token Helper --------------------
 async function refreshToken(): Promise<string> {
     const newToken = await fetchNewToken();
-    setAccessToken(newToken);
     processQueue(newToken);
     return newToken;
 }
