@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_URL } from "@/lib/constants";
 import { getAccessToken, setAccessToken } from "@/lib/auth";
+import { refreshToken as fetchNewToken } from "./refreshToken";
 
 
 if (!API_URL) throw new Error("API_URL is not defined");
@@ -23,8 +24,7 @@ const processQueue = (token: string) => {
 
 // -------------------- Refresh Token Helper --------------------
 async function refreshToken(): Promise<string> {
-    const { data } = await api.post("/auth/token/refresh");
-    const newToken = data.Result.access_token;
+    const newToken = await fetchNewToken();
     setAccessToken(newToken);
     processQueue(newToken);
     return newToken;
