@@ -2,7 +2,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store";
-import { setTheme, type Theme } from "@/slices/themeSlice";
+import { setTheme, type Theme } from "@/slices/theme";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useState, useEffect } from "react";

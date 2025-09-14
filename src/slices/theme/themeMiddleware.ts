@@ -1,5 +1,5 @@
 import { Middleware } from "@reduxjs/toolkit";
-import { setTheme } from "@/slices/themeSlice";
+import { setTheme } from "@/slices/theme/themeSlice";
 
 export const themeMiddleware: Middleware = (store) => (next) => (action) => {
     const result = next(action);
