@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_URL } from "@/lib/constants";
-import { store } from "@/store";
+import { getAccessToken, setAccessToken } from "@/lib/auth";
+
 
 if (!API_URL) throw new Error("API_URL is not defined");
 
@@ -24,14 +25,14 @@ const processQueue = (token: string) => {
 async function refreshToken(): Promise<string> {
     const { data } = await api.post("/auth/token/refresh");
     const newToken = data.Result.access_token;
-    store.dispatch({ type: "auth/setAccessToken", payload: newToken });
+    setAccessToken(newToken);
     processQueue(newToken);
     return newToken;
 }
 
 // -------------------- Request Interceptor --------------------
 api.interceptors.request.use((config) => {
-    const token = store.getState().auth.accessToken;
+    const token = getAccessToken();
     if (token && config.headers) {
         config.headers["Authorization"] = `Bearer ${token}`;
     }
