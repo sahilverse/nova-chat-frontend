@@ -31,7 +31,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.push("/chat");
+            router.replace("/chat");
         }
     }, [isAuthenticated, router]);
 
