@@ -10,10 +10,8 @@ export const loginThunk = createAsyncThunk(
     async (payload: { email: string; password: string }, thunkAPI) => {
         try {
             const response = await api.post("/auth/login", payload);
-            console.log("Login response:", response);
             return response.data.Result;
         } catch (err: any) {
-            console.error("Login error:", err);
             return thunkAPI.rejectWithValue(err);
         }
     }
