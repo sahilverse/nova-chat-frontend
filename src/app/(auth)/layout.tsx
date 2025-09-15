@@ -3,8 +3,10 @@
 import { ReactNode } from "react";
 import { MessageCircle, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
+
 
 interface AuthLayoutProps {
     children: ReactNode;
@@ -27,11 +29,11 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         "Cross-platform support",
     ];
 
-    if (isAuthenticated) {
-        //TODO: Redirect to chat Page
-
-        return <div>You are already logged in.</div>;
-    }
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/chat");
+        }
+    }, [isAuthenticated, router]);
 
     return (
         <div className="min-h-screen flex bg-background">

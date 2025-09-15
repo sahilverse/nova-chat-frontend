@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Eye, EyeOff, MessageCircle, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { registerSchema } from "@/lib/zod";
@@ -55,7 +55,6 @@ const RegisterForm = () => {
                 })
             ).unwrap();
 
-            // TODO: Redirect to chat Page
 
         } catch (err: any) {
             const { fieldErrors } = err;

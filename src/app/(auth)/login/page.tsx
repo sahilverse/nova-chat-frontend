@@ -17,6 +17,8 @@ import { loginThunk } from "@/slices/auth";
 import { useAppDispatch } from "@/store/hooks";
 import type { LoginFormInputs } from "@/lib/zod";
 
+
+
 const LoginForm = () => {
     const dispatch = useAppDispatch();
     const [showPassword, setShowPassword] = useState(false);
@@ -37,10 +39,6 @@ const LoginForm = () => {
             await dispatch(
                 loginThunk({ email: data.email, password: data.password })
             ).unwrap();
-
-            // TODO: Redirect to chat Page
-            toast.success("Logged in successfully!");
-
         } catch (err: any) {
             const { fieldErrors } = err;
             if (fieldErrors) {
