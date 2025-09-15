@@ -67,6 +67,9 @@ const authSlice = createSlice({
             state.status = "idle";
             state.errorMessage = null;
             state.fieldErrors = null;
+
+            socketInstance.getSocket()?.disconnect();
+            delete api.defaults.headers.common["Authorization"];
         },
         setAccessToken: (state, action: PayloadAction<string>) => {
             state.accessToken = action.payload;

@@ -26,7 +26,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 store.dispatch(setUser(user));
                 processQueue(null, access_token);
             } catch (err) {
-                socketInstance.getSocket()?.disconnect();
                 store.dispatch(clearAuth());
                 processQueue(err, null);
             } finally {
