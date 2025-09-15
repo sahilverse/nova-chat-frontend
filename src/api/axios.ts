@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_URL } from "@/lib/constants";
 import { getAccessToken } from "@/lib/auth";
 import { refreshToken as fetchNewToken } from "./refreshToken";
+import { store } from "@/store";
 
 
 if (!API_URL) throw new Error("API_URL is not defined");
@@ -79,6 +80,8 @@ api.interceptors.response.use(
                     originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
                 }
                 return api(originalRequest);
+            } catch (err) {
+                store.dispatch({ type: "auth/logout" });
             } finally {
                 isRefreshing = false;
             }
