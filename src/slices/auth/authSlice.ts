@@ -117,6 +117,7 @@ const authSlice = createSlice({
                 state.status = "idle";
                 state.errorMessage = null;
                 state.fieldErrors = null;
+                delete api.defaults.headers.common["Authorization"];
             })
             .addCase(logoutThunk.rejected, (state, action: any) => {
                 state.errorMessage = action.payload?.errorMessage || "Logout failed";
