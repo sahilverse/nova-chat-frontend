@@ -1,7 +1,7 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { setTheme } from "@/slices/theme/themeSlice";
 
-export const themeMiddleware: Middleware = (store) => (next) => (action) => {
+export const themeMiddleware: Middleware = () => (next) => (action) => {
     const result = next(action);
 
     if (setTheme.match(action)) {
