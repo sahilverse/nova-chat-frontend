@@ -1,8 +1,14 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { API_URL } from "@/lib/constants";
-import { getAccessToken, setAccessToken, logout } from "@/lib/auth";
-import { refreshToken as fetchNewToken } from "./refreshToken";
-import { startRefreshing, stopRefreshing, addToQueue, processQueue, getRefreshingState } from "@/lib/refreshQueue";
+import { getAccessToken, logout } from "@/lib/auth";
+import { refreshToken } from "./refreshToken";
+import {
+    startRefreshing,
+    stopRefreshing,
+    addToQueue,
+    processQueue,
+    getRefreshingState,
+} from "@/lib/refreshQueue";
 
 if (!API_URL) throw new Error("API_URL is not defined");
 
@@ -12,18 +18,14 @@ const api = axios.create({
     headers: { "x-client-type": "web" },
 });
 
-export const refreshToken = async (): Promise<string> => {
-    const newToken = await fetchNewToken();
-    setAccessToken(newToken);
-    return newToken;
-};
-
+// attach access token
 api.interceptors.request.use((config) => {
     const token = getAccessToken();
     if (token && config.headers) config.headers["Authorization"] = `Bearer ${token}`;
     return config;
 });
 
+// response interceptor 
 api.interceptors.response.use(
     (response) => response,
     async (error: AxiosError<any, any>) => {
@@ -36,12 +38,23 @@ api.interceptors.response.use(
 
         const skipRefresh = ["/auth/token/refresh", "/auth/login", "/auth/register"];
         const shouldRefresh =
-            status === 401 && !originalRequest._retry && !skipRefresh.some((path) => originalRequest.url?.includes(path));
+            status === 401 &&
+            !originalRequest._retry &&
+            !skipRefresh.some((path) => originalRequest.url?.includes(path));
 
         if (shouldRefresh) {
             if (getRefreshingState()) {
                 return new Promise((resolve, reject) => {
-                    addToQueue({ resolve, reject, originalRequest });
+                    addToQueue({
+                        resolve: (newToken: string) => {
+                            if (originalRequest.headers) {
+                                originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+                            }
+                            resolve(api(originalRequest));
+                        },
+                        reject,
+                        originalRequest,
+                    });
                 });
             }
 
@@ -50,7 +63,6 @@ api.interceptors.response.use(
 
             try {
                 const newToken = await refreshToken();
-                if (originalRequest.headers) originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
                 processQueue(null, newToken);
                 return api(originalRequest);
             } catch (err) {

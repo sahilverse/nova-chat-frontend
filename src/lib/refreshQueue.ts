@@ -1,9 +1,11 @@
-let isRefreshing = false;
-let failedQueue: {
-    resolve: (value: any) => void;
+type QueueItem = {
+    resolve: (token: string) => void;
     reject: (err: any) => void;
-    originalRequest: any;
-}[] = [];
+    originalRequest?: any;
+}
+
+let isRefreshing = false;
+let queue: QueueItem[] = [];
 
 export const startRefreshing = () => {
     isRefreshing = true;
@@ -13,24 +15,28 @@ export const stopRefreshing = () => {
     isRefreshing = false;
 };
 
-export const addToQueue = (item: {
-    resolve: (value: any) => void;
-    reject: (err: any) => void;
-    originalRequest: any;
-}) => {
-    failedQueue.push(item);
+export const getRefreshingState = () => isRefreshing;
+
+export const addToQueue = (item: QueueItem) => {
+    queue.push(item);
 };
 
-export const processQueue = (error: any, token: string | null = null) => {
-    failedQueue.forEach(({ resolve, reject, originalRequest }) => {
-        if (token && originalRequest.headers) {
-            originalRequest.headers["Authorization"] = `Bearer ${token}`;
-            resolve(originalRequest);
-        } else {
-            reject(error);
+export const processQueue = (error: any, token: string | null) => {
+    queue.forEach((item) => {
+        if (error) {
+            item.reject(error);
+        } else if (token) {
+            if (item.originalRequest) {
+                item.originalRequest.headers = {
+                    ...item.originalRequest.headers,
+                    Authorization: `Bearer ${token}`,
+                };
+                item.resolve(token);
+            } else {
+                item.resolve(token);
+            }
         }
     });
-    failedQueue = [];
-};
 
-export const getRefreshingState = () => isRefreshing;
+    queue = [];
+};
