@@ -1,19 +1,18 @@
 "use client";
 
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { RootState } from "@/store";
+import { useAppSelector } from "@/store/hooks";
 
 export default function Protected({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+    const isAuthenticated = !!useAppSelector((state) => state.auth.user);
 
     useEffect(() => {
-        if (!accessToken) {
+        if (!isAuthenticated) {
             router.replace("/login");
         }
-    }, [accessToken, router]);
+    }, [isAuthenticated, router]);
 
-    return accessToken ? <>{children}</> : null;
+    return isAuthenticated ? <>{children}</> : null;
 }
