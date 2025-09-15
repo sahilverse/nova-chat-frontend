@@ -9,6 +9,8 @@ import { store } from "@/store";
 import { clearAuth, setAccessToken, setUser } from "@/slices/auth";
 import { startRefreshing, stopRefreshing, processQueue } from "@/lib/refreshQueue";
 
+import { socketInstance } from "@/lib/socket";
+
 export function Providers({ children }: { children: React.ReactNode }) {
     const [authReady, setAuthReady] = useState(false);
 
@@ -19,10 +21,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 const { data } = await api.post("/auth/token/refresh");
                 const { access_token, user } = data.Result;
 
+                socketInstance.connect(access_token);
                 store.dispatch(setAccessToken(access_token));
                 store.dispatch(setUser(user));
                 processQueue(null, access_token);
             } catch (err) {
+                socketInstance.getSocket()?.disconnect();
                 store.dispatch(clearAuth());
                 processQueue(err, null);
             } finally {

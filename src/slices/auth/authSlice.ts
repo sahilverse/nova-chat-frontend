@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@/api/axios";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState, AuthUser } from "./authTypes";
+import { socketInstance } from "@/lib/socket";
 
 
 // Login
@@ -86,6 +87,8 @@ const authSlice = createSlice({
                 state.status = "succeeded";
                 state.accessToken = action.payload.access_token;
                 state.user = action.payload.user;
+
+                socketInstance.connect(action.payload.access_token);
             })
             .addCase(loginThunk.rejected, (state, action: any) => {
                 state.status = "failed";
@@ -115,6 +118,8 @@ const authSlice = createSlice({
                 state.status = "idle";
                 state.errorMessage = null;
                 state.fieldErrors = null;
+
+                socketInstance.getSocket()?.disconnect();
                 delete api.defaults.headers.common["Authorization"];
             })
             .addCase(logoutThunk.rejected, (state, action: any) => {
