@@ -82,6 +82,11 @@ api.interceptors.response.use(
                 return api(originalRequest);
             } catch (err) {
                 store.dispatch({ type: "auth/logout" });
+                window.location.href = "/login";
+                return Promise.reject({
+                    statusCode: 401,
+                    errorMessage: "Session expired. Please log in again.",
+                });
             } finally {
                 isRefreshing = false;
             }
