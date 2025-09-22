@@ -1,6 +1,6 @@
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import type { RootState } from "@/store";
 import { setTheme, type Theme } from "@/slices/theme";
 import { Button } from "@/components/ui/button";
@@ -14,8 +14,8 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ variant = "button", size = "md", showLabel = false }: ThemeToggleProps) {
-    const dispatch = useDispatch();
-    const { theme } = useSelector((state: RootState) => state.theme);
+    const dispatch = useAppDispatch();
+    const { theme } = useAppSelector((state: RootState) => state.theme);
     const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
