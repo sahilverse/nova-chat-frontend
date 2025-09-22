@@ -14,8 +14,9 @@ import { loginSchema } from "@/lib/zod";
 import { ClipLoader } from "react-spinners";
 
 import { loginThunk } from "@/slices/auth";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import type { LoginFormInputs } from "@/lib/zod";
+
 
 
 
@@ -23,6 +24,8 @@ const LoginForm = () => {
     const dispatch = useAppDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const { theme } = useAppSelector((state) => state.theme);
 
     const {
         register,
@@ -85,7 +88,7 @@ const LoginForm = () => {
                                     type="email"
                                     placeholder="Enter your email"
                                     {...register("email")}
-                                    className="h-12 px-4 border-2 border-slate-200 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
+                                    className={`h-12 px-4 border-2 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200 ${theme === "dark" ? "border-input" : "border-slate-200"}`}
                                 />
                                 {errors.email && (
                                     <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -102,7 +105,7 @@ const LoginForm = () => {
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Enter your password"
                                         {...register("password")}
-                                        className="h-12 px-4 pr-12 border-2 border-slate-200 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
+                                        className={`h-12 px-4 pr-12 border-2 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200 ${theme === "dark" ? "border-input" : "border-slate-200"}`}
                                     />
                                     <button
                                         type="button"
