@@ -26,7 +26,7 @@ const RegisterForm = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { theme } = useAppSelector((state) => state.theme);
+    const theme = useAppSelector((state) => state.theme.actualTheme);
 
     const {
         register,
