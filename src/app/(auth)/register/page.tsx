@@ -112,7 +112,7 @@ const RegisterForm = () => {
                                     type="text"
                                     placeholder="Enter your full name"
                                     {...register("name")}
-                                    className="h-12 px-4 border-2 border-input bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
+                                    className="h-12 px-4 border-2 border-slate-200 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
                                 />
                                 {errors.name && (
                                     <p className="text-red-500 text-sm mt-1">
@@ -134,7 +134,7 @@ const RegisterForm = () => {
                                     type="email"
                                     placeholder="Enter your email"
                                     {...register("email")}
-                                    className="h-12 px-4 border-2 border-input bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
+                                    className="h-12 px-4 border-2 border-slate-200 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
                                 />
                                 {errors.email && (
                                     <p className="text-red-500 text-sm mt-1">
@@ -157,7 +157,7 @@ const RegisterForm = () => {
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Create a strong password"
                                         {...register("password")}
-                                        className="h-12 px-4 pr-12 border-2 border-input bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
+                                        className="h-12 px-4 pr-12 border-2 border-slate-200 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
                                     />
                                     <button
                                         type="button"
@@ -192,7 +192,7 @@ const RegisterForm = () => {
                                         type={showConfirmPassword ? "text" : "password"}
                                         placeholder="Confirm your password"
                                         {...register("confirmPassword")}
-                                        className="h-12 px-4 pr-12 border-2 border-input bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
+                                        className="h-12 px-4 pr-12 border-2 border-slate-200 bg-background/50 focus:border-primary focus:ring-0 transition-all duration-200"
                                     />
                                     <button
                                         type="button"
