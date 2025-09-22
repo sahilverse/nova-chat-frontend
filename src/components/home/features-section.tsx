@@ -83,7 +83,7 @@ export function FeaturesSection() {
     {
       icon: Share2,
       title: "File Sharing",
-      description: "Share photos, videos, and audios effortlessly.",
+      description: "Share photos, documents, and files of any type effortlessly.",
     },
     {
       icon: Globe,
