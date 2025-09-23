@@ -6,7 +6,7 @@ import api from "@/api/axios";
 
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import { clearAuth, setAccessToken, setUser } from "@/slices/auth";
+import { setAccessToken, setUser } from "@/slices/auth";
 import { startRefreshing, stopRefreshing, processQueue } from "@/lib/refreshQueue";
 
 import { socketInstance } from "@/lib/socket";
