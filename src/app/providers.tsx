@@ -10,12 +10,27 @@ import { clearAuth, setAccessToken, setUser } from "@/slices/auth";
 import { startRefreshing, stopRefreshing, processQueue } from "@/lib/refreshQueue";
 
 import { socketInstance } from "@/lib/socket";
+import { useRouter } from "next/navigation";
+import { logout } from "@/lib/auth";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+
+interface ProvidersProps {
+    children: React.ReactNode;
+    token?: boolean;
+}
+
+export function Providers({ children, token }: ProvidersProps) {
     const [authReady, setAuthReady] = useState(false);
+    const router = useRouter();
+
 
     useEffect(() => {
         const initAuth = async () => {
+            if (!token) {
+                setAuthReady(true);
+                return;
+            }
+
             startRefreshing();
             try {
                 const { data } = await api.post("/auth/token/refresh");
@@ -25,8 +40,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 store.dispatch(setAccessToken(access_token));
                 store.dispatch(setUser(user));
                 processQueue(null, access_token);
+                router.replace("/chat");
             } catch (err) {
-                store.dispatch(clearAuth());
+                logout();
                 processQueue(err, null);
             } finally {
                 stopRefreshing();

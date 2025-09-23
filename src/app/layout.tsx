@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Providers } from "./providers";
 import ThemeWatcher from "@/components/ThemeWatcher";
 import { Toaster } from "sonner";
+import { cookies } from "next/headers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,11 +11,15 @@ export const metadata: Metadata = {
 
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const cookieStore = await cookies();
+  const token = !!cookieStore.get("refresh_token")?.value;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -38,7 +43,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Providers>
+        <Providers token={token}>
           <ThemeWatcher />
 
           {children}

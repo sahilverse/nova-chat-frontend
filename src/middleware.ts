@@ -14,10 +14,6 @@ export function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    if (token && (isAuthRoute || isHomePage)) {
-        return NextResponse.redirect(new URL("/chat", req.url));
-    }
-
     return NextResponse.next();
 }
 
