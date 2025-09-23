@@ -42,8 +42,8 @@ export function Providers({ children, token }: ProvidersProps) {
                 processQueue(null, access_token);
                 router.replace("/chat");
             } catch (err) {
-                logout();
                 processQueue(err, null);
+                logout();
             } finally {
                 stopRefreshing();
                 setAuthReady(true);
@@ -51,7 +51,7 @@ export function Providers({ children, token }: ProvidersProps) {
         };
 
         initAuth();
-    }, []);
+    }, [router, token]);
 
     const [queryClient] = useState(
         () =>
