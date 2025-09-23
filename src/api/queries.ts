@@ -6,7 +6,7 @@ export async function sendOtp(email: string) {
 }
 
 
-export async function verifyOtp(email: string, token: string) {
+export async function verifyOtp(token: string, email?: string) {
     const response = await api.post('/auth/verify-reset-token', { email, token });
     return response.data;
 }

@@ -18,10 +18,9 @@ export default function ResetPassword() {
     const [resetToken, setResetToken] = useState("");
 
     const token = searchParams.get("token");
-    const email = searchParams.get("email");
 
     const verifyEmailTokenMutation = useMutation({
-        mutationFn: ({ email, token }: { email: string; token: string }) => verifyOtp(email, token),
+        mutationFn: ({ token }: { token: string }) => verifyOtp(token),
         onSuccess: (data) => {
             setResetToken(data.Result.reset_token);
             setStep("reset");
@@ -40,9 +39,9 @@ export default function ResetPassword() {
     });
 
     useEffect(() => {
-        if (token && email) {
+        if (token) {
             setStep("verifying");
-            verifyEmailTokenMutation.mutate({ email: decodeURIComponent(email), token });
+            verifyEmailTokenMutation.mutate({ token });
         } else {
             const sessionToken = sessionStorage.getItem("reset_token");
 
@@ -53,7 +52,7 @@ export default function ResetPassword() {
                 router.push("/accounts/forgot-password");
             }
         }
-    }, [token, email, router])
+    }, [token, router])
 
     const handleResetSuccess = () => {
         setStep("success");

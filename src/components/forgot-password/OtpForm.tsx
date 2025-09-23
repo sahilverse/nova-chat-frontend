@@ -35,7 +35,7 @@ export default function OtpForm({ email, onUseDifferentEmail, theme }: OTPInputF
     };
 
     const verifyMutation = useMutation({
-        mutationFn: (otpValue: string) => verifyOtp(email, otpValue),
+        mutationFn: (otpValue: string) => verifyOtp(otpValue, email),
         onSuccess: (data) => {
             sessionStorage.setItem("reset_token", data.Result.reset_token);
             toast.success("OTP verified successfully!");
