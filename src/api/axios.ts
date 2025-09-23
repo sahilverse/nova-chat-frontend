@@ -8,7 +8,7 @@ import {
     addToQueue,
     processQueue,
     getRefreshingState,
-} from "@/lib/refreshQueue";
+} from "@/api/refreshQueue";
 
 if (!API_URL) throw new Error("API_URL is not defined");
 

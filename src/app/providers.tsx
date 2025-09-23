@@ -7,7 +7,7 @@ import api from "@/api/axios";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import { setAccessToken, setUser } from "@/slices/auth";
-import { startRefreshing, stopRefreshing, processQueue } from "@/lib/refreshQueue";
+import { startRefreshing, stopRefreshing, processQueue } from "@/api/refreshQueue";
 
 import { socketInstance } from "@/lib/socket";
 import { useRouter } from "next/navigation";

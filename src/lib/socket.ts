@@ -8,7 +8,7 @@ import {
     startRefreshing,
     stopRefreshing,
     processQueue,
-} from "./refreshQueue";
+} from "@/api/refreshQueue";
 
 export default class SocketService {
     private socket: Socket | null = null;
