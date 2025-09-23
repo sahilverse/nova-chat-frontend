@@ -55,7 +55,6 @@ export default class SocketService {
             const tokenErrors = ["INVALID_TOKEN", "NO_TOKEN_PROVIDED"];
             if (!tokenErrors.includes(error?.message)) return;
 
-            // If a refresh is already in progress, queue this reconnect
             if (getRefreshingState()) {
                 return new Promise<void>((resolve, reject) => {
                     addToQueue({
